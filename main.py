@@ -96,13 +96,4 @@ def getCustomDataById(id: int, date: str, db: Session = Depends(get_db)):
     return "No such company id exist"
 
 # Update data by company id and date
-@app.patch("/api/update")
-def updateCompanyData(id: int,date: str,request:StocksOptional,db:Session=Depends(get_db)):
-    curr_data = db.query(Stocks).filter(Stocks.date==date,Stocks.company_id==id)
-    if not curr_data.first():
-        return "company id or date is wrong"
 
-    new_data = dict((k, v) for k, v in dict(request).items() if v)
-    curr_data.update(new_data)
-    db.commit()
-    return curr_data.first()
